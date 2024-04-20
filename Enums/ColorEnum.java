@@ -1,3 +1,5 @@
+package Enums;
+
 import java.awt.Color;
 
 public enum ColorEnum {
@@ -9,9 +11,9 @@ public enum ColorEnum {
 
     ColorEnum(int hexValue) {
         this.color = new Color(hexValue);
-    }
+    };
 
     public Color getColor() {
         return this.color;
-    }
-}
+    };
+};

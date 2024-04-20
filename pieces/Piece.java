@@ -48,8 +48,7 @@ public class Piece {
             };
         } catch (Exception e) {
             System.err.println(e);
-        }
-        ;
+        };
     };
 
     public void paint(Graphics2D g2d) {
@@ -59,7 +58,6 @@ public class Piece {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             g2d.drawImage(image, xPos, yPos, board.tileSize, board.tileSize, null);
-        }
-        ;
+        };
     };
 };

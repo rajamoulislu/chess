@@ -1,10 +1,6 @@
-## chess
-
-> Final project 
+## chess Final project
 
 > Usage
 ```js
-javac Main.java
-
-java Main.java
+cmd /c run.bat
 ```

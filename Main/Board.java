@@ -10,12 +10,14 @@ public class Board extends JPanel {
     public int tileSize = 85;
     int cols = 8;
     int rows = 8;
-    
+
     ArrayList<Piece> pieceList = new ArrayList<>();
 
     public Piece selectedPiece;
 
     Input input = new Input(this);
+
+    public int enPassantTile = -1;
 
     public Board() {
         this.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
@@ -25,16 +27,55 @@ public class Board extends JPanel {
     };
 
     public Piece getPiece(int col, int row) {
-        for (Piece piece: pieceList){
-            if (piece.col == col && piece.row == row){
+        for (Piece piece : pieceList) {
+            if (piece.col == col && piece.row == row) {
                 return piece;
-            };
+            }
+            ;
         };
 
         return null;
     };
 
     public void makeMove(Move move) {
+
+        if (move.piece.name.equals("bp") || move.piece.name.equals("np")) {
+            movePawn(move);
+        } else {
+            move.piece.col = move.newCol;
+            move.piece.row = move.newRow;
+
+            move.piece.xPos = move.newCol * tileSize;
+            move.piece.yPos = move.newRow * tileSize;
+
+            move.piece.isFirstMove = false;
+
+            capture(move.capture);
+        }
+    };
+
+    private void movePawn(Move move) {
+        // en passant
+        int colorPiece = move.piece.iswhite ? 1 : -1;
+
+        if (getTileNum(move.newCol, move.newRow) == enPassantTile) {
+            move.capture = getPiece(move.newCol, move.newRow + colorPiece);
+        };
+
+        if (Math.abs(move.piece.row - move.newRow) == 2) {
+            enPassantTile = getTileNum(move.newCol, move.newRow + colorPiece);
+
+        } else {
+            enPassantTile = -1;
+        };
+
+
+        // promotions
+        colorPiece = move.piece.iswhite ? 0 : 7;
+        if(move.newRow == colorPiece) {
+            promotePawn(move);
+        };
+
         move.piece.col = move.newCol;
         move.piece.row = move.newRow;
 
@@ -43,11 +84,16 @@ public class Board extends JPanel {
 
         move.piece.isFirstMove = false;
 
-        capture(move);
+        capture(move.capture);
+    };
+
+    private void promotePawn(Move move) {
+        pieceList.add(new Queen(this, move.newCol, move.newRow, move.piece.iswhite));
+        capture(move.piece);
     };
 
     public boolean isValidMove(Move move) {
-        if(sameTeam(move.piece, move.capture)) {
+        if (sameTeam(move.piece, move.capture)) {
             return false;
         };
 
@@ -62,16 +108,20 @@ public class Board extends JPanel {
         return true;
     };
 
-    public void capture(Move move) {
-        pieceList.remove(move.capture);
+    public void capture(Piece piece) {
+        pieceList.remove(piece);
     };
 
-    public boolean sameTeam(Piece p1, Piece p2){
+    public boolean sameTeam(Piece p1, Piece p2) {
         if (p1 == null || p2 == null) {
             return false;
         };
 
         return p1.iswhite == p2.iswhite;
+    };
+
+    public int getTileNum(int col, int row) {
+        return row * rows + col;
     };
 
     public void addPieces() {
@@ -84,7 +134,7 @@ public class Board extends JPanel {
         pieceList.add(new Knight(this, 6, 0, false));
         pieceList.add(new Rook(this, 7, 0, false));
 
-        pieceList.add(new Pawn(this, 0,1, false));
+        pieceList.add(new Pawn(this, 0, 1, false));
         pieceList.add(new Pawn(this, 1, 1, false));
         pieceList.add(new Pawn(this, 2, 1, false));
         pieceList.add(new Pawn(this, 3, 1, false));
@@ -116,7 +166,7 @@ public class Board extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        //Paint board
+        // Paint board
         for (int r = 0; r < rows; r++)
             for (int c = 0; c < cols; c++) {
                 g2d.setColor((c + r) % 2 == 0 ? ColorEnum.ATHS_SPECIAL.getColor() : ColorEnum.ASPARAGUS.getColor());
@@ -133,8 +183,7 @@ public class Board extends JPanel {
             }
             g2d.setColor(highlightColor);
             g2d.fillRect(selectedPiece.col * tileSize, selectedPiece.row * tileSize, tileSize, tileSize);
-        }
-        ;
+        };
 
         // Paint Highlights
         if (selectedPiece != null) {
@@ -144,10 +193,10 @@ public class Board extends JPanel {
                         g2d.setColor(Color.WHITE);
                         g2d.setStroke(new BasicStroke(3));
                         g2d.drawRect(c * tileSize, r * tileSize, tileSize, tileSize);
-                    }
-                }
-            }
-        }
+                    };
+                };
+            };
+        };
 
         // Paint pieces
         for (Piece piece : pieceList) {

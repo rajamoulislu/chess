@@ -11,4 +11,25 @@ public class Pawn extends Piece {
         this.yPos = row * board.tileSize;
         this.name = "bp";
     };
+
+    public boolean isValidMovement(int col, int row) {
+        int colorPiece = iswhite ? 1 : -1;
+
+        if (this.col == col && row  == this.row - colorPiece && board.getPiece(col, row) == null)
+            return true;
+
+        if (isFirstMove && this.col == col && row == this.row - colorPiece * 2 && board.getPiece(col, row) == null && board.getPiece(col, row + colorPiece) == null)
+            return true;
+
+        if (this.col == col && row == this.row - colorPiece && board.getPiece(col, row) == null)
+            return true;
+
+        if (col == this.col - 1 && row == this.row - colorPiece && board.getPiece(col, row) != null)
+            return true;
+
+        if (col == this.col + 1 && row == this.row - colorPiece && board.getPiece(col, row) != null)
+            return true;
+
+        return false;
+    };
 };

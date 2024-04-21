@@ -14,6 +14,8 @@ public class Piece {
     public String name;
     public int value;
     BufferedImage image;
+    public boolean isFirstMove = true;
+
     Board board;
 
     public Piece(Board board, String pieceName, boolean isWhite) {

@@ -9,6 +9,7 @@ public class Rook extends Piece {
         this.row = row;
         this.xPos = col * board.tileSize;
         this.yPos = row * board.tileSize;
+        this.isWhite = isWhite;
         this.name = "br";
     };
 
@@ -22,8 +23,8 @@ public class Rook extends Piece {
             for (int c = this.col - 1; c > col; c--)
                 if (board.getPiece(c, this.row) != null)
                     return true;
-        
-        // right 
+
+        // right
         if (this.col < col)
             for (int c = this.col + 1; c < col; c++)
                 if (board.getPiece(c, this.row) != null)

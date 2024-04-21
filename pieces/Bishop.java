@@ -9,6 +9,7 @@ public class Bishop extends Piece {
         this.row = row;
         this.xPos = col * board.tileSize;
         this.yPos = row * board.tileSize;
+        this.isWhite = isWhite;
         this.name = "bb";
     };
 
@@ -18,7 +19,7 @@ public class Bishop extends Piece {
 
     public boolean moveCollidesWithPiece(int col, int row) {
         // up-left
-        if (this.col > col && this.row > row) 
+        if (this.col > col && this.row > row)
             for (int i = 1; i < Math.abs(this.col - col); i++)
                 if (board.getPiece(this.col - i, this.row - i) != null)
                     return true;
@@ -27,7 +28,6 @@ public class Bishop extends Piece {
             for (int i = 1; i < Math.abs(this.col - col); i++)
                 if (board.getPiece(this.col + i, this.row - i) != null)
                     return true;
-
 
         // down-left
         if (this.col > col && this.row < row)

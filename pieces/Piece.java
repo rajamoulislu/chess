@@ -10,7 +10,7 @@ import Main.*;
 public class Piece {
     public int col, row;
     public int xPos, yPos;
-    public boolean iswhite;
+    public boolean isWhite;
     public String name;
     public int value;
     BufferedImage image;
@@ -21,12 +21,12 @@ public class Piece {
     public Piece(Board board, String pieceName, boolean isWhite) {
         this.board = board;
         this.name = pieceName;
-        this.iswhite = isWhite;
+        this.isWhite = isWhite;
         loadImage();
     };
 
     public boolean isValidMovement(int col, int row) {
-            return true;
+        return true;
     };
 
     public boolean moveCollidesWithPiece(int col, int row) {
@@ -39,7 +39,7 @@ public class Piece {
             File folder = new File(folderPath);
 
             if (folder.exists() && folder.isDirectory()) {
-                String imageFileName = (iswhite ? "w" : "b") + name.charAt(1) + ".png";
+                String imageFileName = (isWhite ? "w" : "b") + name.charAt(1) + ".png";
                 File imageFile = new File(folder, imageFileName);
 
                 if (imageFile.exists()) {

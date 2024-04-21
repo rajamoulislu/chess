@@ -16,6 +16,7 @@ public class Board extends JPanel {
     public Piece selectedPiece;
 
     Input input = new Input(this);
+    CheckScanner checkScanner = new CheckScanner(this);
 
     public int enPassantTile = -1;
 
@@ -30,8 +31,7 @@ public class Board extends JPanel {
         for (Piece piece : pieceList) {
             if (piece.col == col && piece.row == row) {
                 return piece;
-            }
-            ;
+            };
         };
 
         return null;
@@ -39,7 +39,7 @@ public class Board extends JPanel {
 
     public void makeMove(Move move) {
 
-        if (move.piece.name.equals("bp") || move.piece.name.equals("np")) {
+        if (move.piece.name.equals("bp") || move.piece.name.equals("wp")) {
             movePawn(move);
         } else {
             move.piece.col = move.newCol;
@@ -51,12 +51,12 @@ public class Board extends JPanel {
             move.piece.isFirstMove = false;
 
             capture(move.capture);
-        }
+        };
     };
 
     private void movePawn(Move move) {
         // en passant
-        int colorPiece = move.piece.iswhite ? 1 : -1;
+        int colorPiece = move.piece.isWhite ? 1 : -1;
 
         if (getTileNum(move.newCol, move.newRow) == enPassantTile) {
             move.capture = getPiece(move.newCol, move.newRow + colorPiece);
@@ -69,10 +69,9 @@ public class Board extends JPanel {
             enPassantTile = -1;
         };
 
-
         // promotions
-        colorPiece = move.piece.iswhite ? 0 : 7;
-        if(move.newRow == colorPiece) {
+        colorPiece = move.piece.isWhite ? 0 : 7;
+        if (move.newRow == colorPiece) {
             promotePawn(move);
         };
 
@@ -88,7 +87,7 @@ public class Board extends JPanel {
     };
 
     private void promotePawn(Move move) {
-        pieceList.add(new Queen(this, move.newCol, move.newRow, move.piece.iswhite));
+        pieceList.add(new Queen(this, move.newCol, move.newRow, move.piece.isWhite));
         capture(move.piece);
     };
 
@@ -105,6 +104,10 @@ public class Board extends JPanel {
             return false;
         };
 
+        if (checkScanner.isKingChecked(move)) {
+            return false;
+        };
+
         return true;
     };
 
@@ -117,7 +120,17 @@ public class Board extends JPanel {
             return false;
         };
 
-        return p1.iswhite == p2.iswhite;
+        return p1.isWhite == p2.isWhite;
+    };
+
+    Piece findKing(boolean isWhite) {
+        for (Piece piece : pieceList) {
+            if (isWhite == piece.isWhite && (piece.name.equals("bk") || piece.name.equals("wk"))) {
+                return piece;
+            };
+        };
+
+        return null;
     };
 
     public int getTileNum(int col, int row) {

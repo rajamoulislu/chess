@@ -9,16 +9,16 @@ public class Queen extends Piece {
         this.row = row;
         this.xPos = col * board.tileSize;
         this.yPos = row * board.tileSize;
+        this.isWhite = isWhite;
         this.name = "bq";
     };
-
 
     public boolean isValidMovement(int col, int row) {
         return this.col == col || this.row == row || Math.abs(this.col - col) == Math.abs(this.row - row);
     };
 
     public boolean moveCollidesWithPiece(int col, int row) {
-        if (this.col == col || this.row == row){
+        if (this.col == col || this.row == row) {
             // left
             if (this.col > col)
                 for (int c = this.col - 1; c > col; c--)

@@ -9,11 +9,11 @@ public class Knight extends Piece {
         this.row = row;
         this.xPos = col * board.tileSize;
         this.yPos = row * board.tileSize;
+        this.isWhite = isWhite;
         this.name = "bn";
     };
 
-
     public boolean isValidMovement(int col, int row) {
-        return Math.abs(col - this.col) * Math.abs(row - this.row) == 2; 
+        return Math.abs(col - this.col) * Math.abs(row - this.row) == 2;
     };
 };

@@ -23,6 +23,14 @@ public class Piece {
         loadImage();
     };
 
+    public boolean isValidMovement(int col, int row) {
+            return true;
+    };
+
+    public boolean moveCollidesWithPiece(int col, int row) {
+        return false;
+    };
+
     private void loadImage() {
         try {
             String folderPath = "pieces_image";

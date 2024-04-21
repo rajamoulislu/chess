@@ -11,4 +11,9 @@ public class Knight extends Piece {
         this.yPos = row * board.tileSize;
         this.name = "bn";
     };
+
+
+    public boolean isValidMovement(int col, int row) {
+        return Math.abs(col - this.col) * Math.abs(row - this.row) == 2; 
+    };
 };

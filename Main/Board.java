@@ -48,6 +48,15 @@ public class Board extends JPanel {
         if(sameTeam(move.piece, move.capture)) {
             return false;
         };
+
+        if (!move.piece.isValidMovement(move.newCol, move.newRow)) {
+            return false;
+        };
+
+        if (move.piece.moveCollidesWithPiece(move.newCol, move.newRow)) {
+            return false;
+        };
+
         return true;
     };
 
@@ -105,13 +114,40 @@ public class Board extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        for (int r = 0; r < rows; r++) {
+        //Paint board
+        for (int r = 0; r < rows; r++)
             for (int c = 0; c < cols; c++) {
                 g2d.setColor((c + r) % 2 == 0 ? ColorEnum.ATHS_SPECIAL.getColor() : ColorEnum.ASPARAGUS.getColor());
                 g2d.fillRect(c * tileSize, r * tileSize, tileSize, tileSize);
             };
-        };
 
+        // Paint selected piece highlight
+        if (selectedPiece != null) {
+            Color highlightColor;
+            if ((selectedPiece.col + selectedPiece.row) % 2 == 0) {
+                highlightColor = new Color(0xB9CA70);
+            } else {
+                highlightColor = new Color(0xF5F682);
+            }
+            g2d.setColor(highlightColor);
+            g2d.fillRect(selectedPiece.col * tileSize, selectedPiece.row * tileSize, tileSize, tileSize);
+        }
+        ;
+
+        // Paint Highlights
+        if (selectedPiece != null) {
+            for (int r = 0; r < rows; r++) {
+                for (int c = 0; c < cols; c++) {
+                    if (isValidMove(new Move(this, selectedPiece, c, r))) {
+                        g2d.setColor(Color.WHITE);
+                        g2d.setStroke(new BasicStroke(3));
+                        g2d.drawRect(c * tileSize, r * tileSize, tileSize, tileSize);
+                    }
+                }
+            }
+        }
+
+        // Paint pieces
         for (Piece piece : pieceList) {
             piece.paint(g2d);
         };

@@ -11,9 +11,15 @@ public class CheckScanner {
     };
 
     public boolean isKingChecked(Move move) {
+        if (move == null || move.piece == null) {
+            return false;
+        };
 
         Piece king = board.findKing(move.piece.isWhite);
-        assert king != null;
+        // assert king != null;
+        if (king == null) {
+            return false;
+        };
 
         int kingCol = king.col;
         int kingRow = king.row;

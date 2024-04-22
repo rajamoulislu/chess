@@ -98,6 +98,10 @@ public class Board extends JPanel {
     };
 
     public boolean isValidMove(Move move) {
+        if (move.newCol < 0 || move.newCol >= cols || move.newRow < 0 || move.newRow >= rows) {
+            return false;
+        };
+        
         if (sameTeam(move.piece, move.capture)) {
             return false;
         };

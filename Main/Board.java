@@ -10,6 +10,7 @@ public class Board extends JPanel {
     public int tileSize = 85;
     int cols = 8;
     int rows = 8;
+    public static boolean iswhite = true;
 
     ArrayList<Piece> pieceList = new ArrayList<>();
 
@@ -38,6 +39,8 @@ public class Board extends JPanel {
     };
 
     public void makeMove(Move move) {
+
+
         if (move.piece.name.equals("bp") || move.piece.name.equals("wp")) {
             movePawn(move);
         } else if ((move.piece.name.equals("bk") || move.piece.name.equals("wk"))) {
@@ -51,7 +54,7 @@ public class Board extends JPanel {
         move.piece.yPos = move.newRow * tileSize;
 
         move.piece.isFirstMove = false;
-
+        iswhite = !iswhite;
         capture(move.capture);
     };
 
@@ -98,6 +101,9 @@ public class Board extends JPanel {
     };
 
     public boolean isValidMove(Move move) {
+        if(move.piece.isWhite != iswhite){
+            return false;
+        }
         if (move.newCol < 0 || move.newCol >= cols || move.newRow < 0 || move.newRow >= rows) {
             return false;
         };

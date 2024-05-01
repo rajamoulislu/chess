@@ -206,10 +206,10 @@ public class Board extends JPanel {
         if (selectedPiece != null) {
             Color highlightColor;
             if ((selectedPiece.col + selectedPiece.row) % 2 == 0) {
-                highlightColor = new Color(0xB9CA70);
+                highlightColor = ColorEnum.MINDARO.getColor();
             } else {
-                highlightColor = new Color(0xF5F682);
-            }
+                highlightColor = ColorEnum.WILD_WILLOW.getColor();
+            };
             g2d.setColor(highlightColor);
             g2d.fillRect(selectedPiece.col * tileSize, selectedPiece.row * tileSize, tileSize, tileSize);
         };

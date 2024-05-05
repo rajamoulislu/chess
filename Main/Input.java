@@ -7,14 +7,28 @@ import java.awt.event.MouseMotionListener;
 
 import pieces.Piece;
 
+/**
+ * The Input class handles mouse input events for the chess board.
+ * It extends the MouseAdapter class to override specific mouse event methods.
+ */
 public class Input extends MouseAdapter {
 
     Board board;
 
+    /**
+     * Constructs an Input object with the given Board.
+     * 
+     * @param board the chess board associated with the input events
+     */
     public Input(Board board) {
         this.board = board;
     };
 
+    /**
+     * Invoked when a mouse button is pressed and dragged on the chess board.
+     * 
+     * @param e the MouseEvent object containing information about the event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         if (board.selectedPiece != null) {
@@ -25,6 +39,11 @@ public class Input extends MouseAdapter {
         };
     };
 
+    /**
+     * Invoked when a mouse button is pressed on the chess board.
+     * 
+     * @param e the MouseEvent object containing information about the event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         int col = e.getX() / board.tileSize;
@@ -37,6 +56,11 @@ public class Input extends MouseAdapter {
         };
     };
 
+    /**
+     * Invoked when a mouse button is released on the chess board.
+     * 
+     * @param e the MouseEvent object containing information about the event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         int col = e.getX() / board.tileSize;

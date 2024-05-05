@@ -2,7 +2,20 @@ package pieces;
 
 import Main.*;
 
+/**
+ * The Queen class represents a queen piece in the chess game.
+ * It extends the Piece class and provides specific functionality for the queen
+ * piece.
+ */
 public class Queen extends Piece {
+    /**
+     * Constructs a Queen object with the given board, column, row, and color.
+     * 
+     * @param board   the chess board
+     * @param col     the column of the queen
+     * @param row     the row of the queen
+     * @param isWhite true if the queen is white, false if it is black
+     */
     public Queen(Board board, int col, int row, boolean isWhite) {
         super(board, "bq", isWhite);
         this.col = col;
@@ -13,10 +26,25 @@ public class Queen extends Piece {
         this.name = "bq";
     };
 
+    /**
+     * Checks if the movement of the queen to the given column and row is valid.
+     * 
+     * @param col the destination column
+     * @param row the destination row
+     * @return true if the movement is valid, false otherwise
+     */
     public boolean isValidMovement(int col, int row) {
         return this.col == col || this.row == row || Math.abs(this.col - col) == Math.abs(this.row - row);
     };
 
+    /**
+     * Checks if the movement of the queen to the given column and row collides with
+     * another piece.
+     * 
+     * @param col the destination column
+     * @param row the destination row
+     * @return true if the movement collides with another piece, false otherwise
+     */
     public boolean moveCollidesWithPiece(int col, int row) {
         if (this.col == col || this.row == row) {
             // left

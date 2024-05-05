@@ -2,7 +2,21 @@ package pieces;
 
 import Main.*;
 
+/**
+ * The King class represents a king piece in the chess game.
+ * It extends the Piece class and provides specific functionality for the king
+ * piece.
+ */
 public class King extends Piece {
+
+    /**
+     * Constructs a King object with the given board, column, row, and color.
+     * 
+     * @param board   the chess board
+     * @param col     the column of the king
+     * @param row     the row of the king
+     * @param isWhite true if the king is white, false if it is black
+     */
     public King(Board board, int col, int row, boolean isWhite) {
         super(board, "bk", isWhite);
         this.col = col;
@@ -13,11 +27,25 @@ public class King extends Piece {
         this.name = "bk";
     };
 
+    /**
+     * Checks if the movement of the king to the given column and row is valid.
+     * 
+     * @param col the destination column
+     * @param row the destination row
+     * @return true if the movement is valid, false otherwise
+     */
     public boolean isValidMovement(int col, int row) {
         return Math.abs((col - this.col) * (row - this.row)) == 1
                 || Math.abs(col - this.col) + Math.abs(row - this.row) == 1 || canCastle(col, row);
     };
 
+    /**
+     * Checks if the king can perform a castling move to the given column and row.
+     * 
+     * @param col the destination column
+     * @param row the destination row
+     * @return true if the king can castle, false otherwise
+     */
     private boolean canCastle(int col, int row) {
         if(this.row == row) {
             if(col == 6) {

@@ -63,6 +63,68 @@ public class Board extends JPanel {
         return null;
     };
 
+    public static String convertAbbreviationToFullName(String abbreviation) {
+        switch (abbreviation) {
+            case "wp":
+                return "White Pawn";
+            case "wr":
+                return "White Rook";
+            case "wn":
+                return "White Knight";
+            case "wb":
+                return "White Bishop";
+            case "wq":
+                return "White Queen";
+            case "wk":
+                return "White King";
+            case "bp":
+                return "Black Pawn";
+            case "br":
+                return "Black Rook";
+            case "bn":
+                return "Black Knight";
+            case "bb":
+                return "Black Bishop";
+            case "bq":
+                return "Black Queen";
+            case "bk":
+                return "Black King";
+            default:
+                return abbreviation; // Return the abbreviation as fallback
+        }
+    }
+
+    public static String convertAbbreviationToFullName2(String abbreviation) {
+        switch (abbreviation) {
+            case "wp":
+                return "White Pawn";
+            case "wr":
+                return "White Rook";
+            case "wn":
+                return "White Knight";
+            case "wb":
+                return "White Bishop";
+            case "wq":
+                return "White Queen";
+            case "wk":
+                return "White King";
+            case "bp":
+                return "Black Pawn";
+            case "br":
+                return "Black Rook";
+            case "bn":
+                return "Black Knight";
+            case "bb":
+                return "Black Bishop";
+            case "bq":
+                return "Black Queen";
+            case "bk":
+                return "Black King";
+            default:
+                return abbreviation; // Return the abbreviation as fallback
+        }
+    }
+
     /**
      * Moves a piece on the board according to the provided move.
      *
@@ -70,36 +132,45 @@ public class Board extends JPanel {
      */
     public void makeMove(Move move) {
 
+        String moveInfo = "";
+        String movePieceName = (move.piece.isWhite ? "w" : "b") + move.piece.name.charAt(1);
         if (move.capture != null) {
             String captureInfo = "";
             if (move.piece.isWhite) {
-                captureInfo = "White piece (" + move.piece.name + ") captured: Black piece (" + move.capture.name + ")";
+                captureInfo = convertAbbreviationToFullName(movePieceName) + " captured: "
+                        + convertAbbreviationToFullName2(move.capture.name);
             } else {
-                captureInfo = "Black piece (" + move.piece.name + ") captured: White piece (" + move.capture.name + ")";
+                captureInfo = convertAbbreviationToFullName(movePieceName) + " captured: "
+                        + convertAbbreviationToFullName2(move.capture.name);
             }
             infoPanel.addInfo(captureInfo);
-        };
+        } else {
+            moveInfo = convertAbbreviationToFullName(movePieceName) + " moved from (C"
+                    + move.piece.col + ", R" + move.piece.row + ") to (C"
+                    + move.newCol + ", R" + move.newRow + ")";
+            infoPanel.addInfo(moveInfo);
+        }
 
         if (move.piece.name.equals("bp") || move.piece.name.equals("wp")) {
             if (move.newRow == (move.piece.isWhite ? 0 : 7)) {
                 String promotionInfo = "";
                 if (move.piece.isWhite) {
-                    promotionInfo = "White pawn (" + move.piece.name + ") promoted";
+                    promotionInfo = convertAbbreviationToFullName(movePieceName) + " promoted";
                 } else {
-                    promotionInfo = "Black pawn (" + move.piece.name + ") promoted";
+                    promotionInfo = convertAbbreviationToFullName(movePieceName) + " promoted";
                 }
                 infoPanel.addInfo(promotionInfo);
-            };
+            }
             if (getTileNum(move.newCol, move.newRow) == enPassantTile) {
                 String enPassantInfo = "";
                 if (move.piece.isWhite) {
-                    enPassantInfo = "White pawn (" + move.piece.name + ") captured en passant";
+                    enPassantInfo = convertAbbreviationToFullName(movePieceName) + " captured en passant";
                 } else {
-                    enPassantInfo = "Black pawn (" + move.piece.name + ") captured en passant";
+                    enPassantInfo = convertAbbreviationToFullName(movePieceName) + " captured en passant";
                 }
                 infoPanel.addInfo(enPassantInfo);
-            };
-        };
+            }
+        }
 
 
         if (move.piece.name.equals("bp") || move.piece.name.equals("wp")) {
@@ -137,6 +208,7 @@ public class Board extends JPanel {
             rook.xPos = rook.col * tileSize;
         };
     };
+    
 
     public InfoPanel getInfoPanel() {
         return infoPanel;

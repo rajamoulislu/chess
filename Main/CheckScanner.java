@@ -1,6 +1,9 @@
 package Main;
 
 import pieces.*;
+
+import javax.swing.JOptionPane;
+
 import Main.*;
 
 /**
@@ -46,7 +49,7 @@ public class CheckScanner {
             kingRow = move.newRow;
         };
 
-        return  hitByRook(move.newCol, move.newRow, king, kingCol, kingRow, 0, 1) || // up
+        boolean kingcheck = hitByRook(move.newCol, move.newRow, king, kingCol, kingRow, 0, 1) || // up
                 hitByRook(move.newCol, move.newRow, king, kingCol, kingRow, 1, 0) || // right
                 hitByRook(move.newCol, move.newRow, king, kingCol, kingRow, 0, -1) || // down
                 hitByRook(move.newCol, move.newRow, king, kingCol, kingRow, -1, 0) || // left
@@ -59,6 +62,22 @@ public class CheckScanner {
                 hitByKnight(move.newCol, move.newRow, king, kingCol, kingRow) || 
                 hitByPawn(move.newCol, move.newRow, king, kingCol, kingRow) || 
                 hitByKing(king, kingCol, kingRow);
+
+        if (kingcheck) {
+            String captureInfo = "";
+            if (move.piece.isWhite) {
+                captureInfo = "check mate by black";
+            } else {
+                captureInfo = "check mate by white.";
+            }
+
+
+            board.getInfoPanel().addInfo(captureInfo);
+            JOptionPane.showMessageDialog(null, captureInfo, "Checkmate", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0); // Close the application
+        };
+
+        return kingcheck;
     };
 
     /**

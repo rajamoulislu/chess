@@ -33,6 +33,8 @@ public class Board extends JPanel {
     /** Represents the tile where an en passant capture can occur. */
     public int enPassantTile = -1;
 
+    private InfoPanel infoPanel;
+
     /**
      * Constructs a new Board object.
      */
@@ -41,6 +43,7 @@ public class Board extends JPanel {
         this.addMouseListener(input);
         this.addMouseMotionListener(input);
         addPieces();
+        infoPanel = new InfoPanel();
     };
 
     /**
@@ -66,6 +69,39 @@ public class Board extends JPanel {
      * @param move The Move object representing the move to be executed.
      */
     public void makeMove(Move move) {
+
+        if (move.capture != null) {
+            String captureInfo = "";
+            if (move.piece.isWhite) {
+                captureInfo = "White piece (" + move.piece.name + ") captured: Black piece (" + move.capture.name + ")";
+            } else {
+                captureInfo = "Black piece (" + move.piece.name + ") captured: White piece (" + move.capture.name + ")";
+            }
+            infoPanel.addInfo(captureInfo);
+        };
+
+        if (move.piece.name.equals("bp") || move.piece.name.equals("wp")) {
+            if (move.newRow == (move.piece.isWhite ? 0 : 7)) {
+                String promotionInfo = "";
+                if (move.piece.isWhite) {
+                    promotionInfo = "White pawn (" + move.piece.name + ") promoted";
+                } else {
+                    promotionInfo = "Black pawn (" + move.piece.name + ") promoted";
+                }
+                infoPanel.addInfo(promotionInfo);
+            };
+            if (getTileNum(move.newCol, move.newRow) == enPassantTile) {
+                String enPassantInfo = "";
+                if (move.piece.isWhite) {
+                    enPassantInfo = "White pawn (" + move.piece.name + ") captured en passant";
+                } else {
+                    enPassantInfo = "Black pawn (" + move.piece.name + ") captured en passant";
+                }
+                infoPanel.addInfo(enPassantInfo);
+            };
+        };
+
+
         if (move.piece.name.equals("bp") || move.piece.name.equals("wp")) {
             movePawn(move);
         } else if ((move.piece.name.equals("bk") || move.piece.name.equals("wk"))) {
@@ -100,6 +136,10 @@ public class Board extends JPanel {
             };
             rook.xPos = rook.col * tileSize;
         };
+    };
+
+    public InfoPanel getInfoPanel() {
+        return infoPanel;
     };
 
     /**

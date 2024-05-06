@@ -19,14 +19,29 @@ public class Main {
      */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Chess Game");
+
+        // chess panel
         frame.getContentPane().setBackground(ColorEnum.DUNE.getColor());
         frame.setLayout(new GridBagLayout());
         frame.setMinimumSize(new Dimension(1000, 1000));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-
+        
         Board board = new Board();
-        frame.add(board);
+        GridBagConstraints boardConstraints = new GridBagConstraints();
+        boardConstraints.gridx = 0;
+        boardConstraints.gridy = 0;
+        frame.add(board, boardConstraints);
 
+        InfoPanel infoPanel = board.getInfoPanel();
+
+        GridBagConstraints infoPanelConstraints = new GridBagConstraints();
+        infoPanelConstraints.gridx = 1;
+        infoPanelConstraints.gridy = 0;
+        infoPanelConstraints.fill = GridBagConstraints.VERTICAL;
+        frame.add(infoPanel, infoPanelConstraints);
+
+        frame.pack();
         frame.setVisible(true);
     };
 };
